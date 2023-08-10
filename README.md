@@ -4,7 +4,7 @@ online : https://limelee.xyz
 
 ConverterV3.0 is a simple character conversion tool
 
-## features
+## Features
 1. EN/DEcoder
     - URL en/decode
     - base64 en/decode
@@ -25,3 +25,4 @@ ConverterV3.0 is a simple character conversion tool
        - Ignore Cases
        - Desc Order (Only Sort!)
        - Remove Leading/Trailing Spaces
+   - EngToHan
