@@ -94,7 +94,7 @@
 			case "3":
 				selcode = 5;
 				$('#translator').css('display', 'block');
-				option_data = {"":{"reverse":"Reverse","rot13":"ROT13","sort":"Sort","uniq":'Unique'}};
+				option_data = {"":{"reverse":"Reverse","rot13":"ROT13","sort":"Sort","uniq":'Unique',"Eng2Han":"Eng2Han"}};
 				break
 		}
 
@@ -176,7 +176,7 @@
 				val = $("#Encode").val();
 				break
 			case 1:
-				val = $("#Decode").val();
+				val = encodeURIComponent($("#Decode").val());
 				break
 			case 2:
 				val = $("#Plain").val();
@@ -298,6 +298,85 @@
 		}
 		
 		const result = array.join('\n');
+		return result;
+	}
+
+
+	function E2H(cho, jung, jong) {
+		console.log(cho,jung,jong);
+		return String.fromCharCode(44032 + cho * 21 * 28 + jung * 28 + jong + 1);
+	}
+
+	function findIndex(i,c,l=0) {
+		return c.find((element) => i.substr(l).indexOf(element) == 0) ?? '';
+	}
+
+	function Eng2Han() {
+
+		var cho = ['g', 'v', 'x', 'z', 'c', 'W', 'w', 'd', 'T', 't', 'Q', 'q', 'a', 'f', 'E', 'e', 's', 'R', 'r'];
+		var cho_kor = ['ㅎ', 'ㅍ', 'ㅌ', 'ㅋ', 'ㅊ', 'ㅉ', 'ㅈ', 'ㅇ', 'ㅆ', 'ㅅ', 'ㅃ', 'ㅂ', 'ㅁ', 'ㄹ', 'ㄸ', 'ㄷ', 'ㄴ', 'ㄲ', 'ㄱ'];
+		var jung = ['l', 'ml', 'm', 'b', 'nl', 'np', 'nj', 'n', 'y', 'hl', 'ho', 'hk', 'h', 'P', 'u', 'p', 'j', 'O', 'i', 'o', 'k'];
+		var jung_kor = ['ㅣ', 'ㅢ', 'ㅡ', 'ㅠ', 'ㅟ', 'ㅞ', 'ㅝ', 'ㅜ', 'ㅛ', 'ㅚ', 'ㅙ', 'ㅘ', 'ㅗ', 'ㅖ', 'ㅕ', 'ㅔ', 'ㅓ', 'ㅒ', 'ㅑ', 'ㅐ', 'ㅏ'];
+		var jong = ['g', 'v', 'x', 'z', 'c', 'w', 'd', 'T', 't', 'qt', 'q', 'a', 'fg', 'fv', 'fx', 'ft', 'fq', 'fa', 'fr', 'f', 'e', 'sg', 'sw', 's', 'rt', 'R', 'r'];
+		var jong_kor = ['ㅎ', 'ㅍ', 'ㅌ', 'ㅋ', 'ㅊ', 'ㅈ', 'ㅇ', 'ㅆ', 'ㅅ', 'ㅄ', 'ㅂ', 'ㅁ', 'ㅀ', 'ㄿ', 'ㄾ', 'ㄽ', 'ㄼ', 'ㄻ', 'ㄺ', 'ㄹ', 'ㄷ', 'ㄶ', 'ㄵ', 'ㄴ', 'ㄳ', 'ㄲ', 'ㄱ'];
+		
+		let input=$("#Input").val();
+		var result = '';
+
+		while (input != '' ) {
+			var ischo = findIndex(input,cho);
+			if ( ischo != '' ) {
+				var isjung = findIndex(input,jung,ischo.length); 
+				if ( isjung != '' ) {
+					var isjong = findIndex(input,jong,ischo.length + isjung.length); 
+					if ( isjong != '' ) {
+						var isnotjong = findIndex(input,jung,ischo.length + isjung.length + isjong.length); 
+						if ( isnotjong != '' ) {
+							var isjong = jong.find((element) => input.substr(isjung.length + ischo.length + isjong.length -2 , 1).indexOf(element) == 0) ?? '' ;
+							result += E2H(cho.length-1-cho.indexOf(ischo),jung.length-1-jung.indexOf(isjung),((jong.length-jong.indexOf(isjong))%28)-1);
+							input = input.substr(isjong.length + isjung.length + ischo.length);
+						}
+						else {
+							result += E2H(cho.length-1-cho.indexOf(ischo),jung.length-1-jung.indexOf(isjung),(jong.length-jong.indexOf(isjong))-1);
+							input = input.substr(isjong.length + isjung.length + ischo.length);
+						}
+					}
+					else {
+						result += E2H(cho.length-1-cho.indexOf(ischo),jung.length-1-jung.indexOf(isjung),-1);
+						input = input.substr(isjong.length + isjung.length + ischo.length);
+					}
+				}
+				else {
+					var isjong = jong.find((element) => input.indexOf(element) == 0) ?? '';
+					if ( isjong != '' ) {
+						var isnotjong = jung.find((element) => input.substr(isjong.length).indexOf(element) == 0 ) ?? '';
+						if ( isnotjong != '' ) {
+							var isjong = jong.find((element) => input.substr(isjong.length -2 , 1).indexOf(element) == 0) ?? '' ;
+							result += jong_kor[jong.indexOf(isjong)];
+							input = input.substr(isjong.length);
+						}
+						else {
+							result += jong_kor[jong.indexOf(isjong)];
+							input = input.substr(isjong.length);
+						}
+					}
+					else {
+						result += cho_kor[cho.indexOf(ischo)]; 
+						input = input.substr(isjong.length);
+					}
+				}
+			}
+			else {
+				var isjung = jung.find((element) => input.substr(ischo.length).indexOf(element) == 0) ?? '';
+				if ( isjung != '' ) {
+					result += jung_kor[jung.indexOf(isjung)];
+				}
+				else {
+					result +=  input.substr(0,1);
+				}
+				input = input.substr(1);
+			}
+		}
 		return result;
 	}
 
