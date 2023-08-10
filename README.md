@@ -26,3 +26,4 @@ ConverterV3.0 is a simple character conversion tool
        - Desc Order (Only Sort!)
        - Remove Leading/Trailing Spaces
    - EngToHan
+   - HanToEng
