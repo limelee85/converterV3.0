@@ -30,18 +30,25 @@
             $result = urlencode($input);
             break;
 
+            #BASE2(BIN) ENCODING
+            case "b2" :
+            $hex_arr = str_split(bin2hex($input),2);
+            foreach ($hex_arr as $hex) { 
+                 $result = $result.str_pad(strval(base_convert($hex, 16, 2)),8,"0",STR_PAD_LEFT);
+            } 
+            break;
+
+            #BASE16(hex) ENCODING
+            case "b16" :
+            $result = bin2hex($input);
+            break;
+
             #BASE64 ENCODING
             case "b64" :
             $result = base64_encode($input);
             break;
 
-            #HEX ENCODING
-            case "hex" :
-            $result = bin2hex($input);
-            break;
-
         }
-
     }
 
     # decode
@@ -53,15 +60,25 @@
             $input = urldecode($data);
             break;
 
+            #BASE2(BIN) DECODING
+            case "b2" :
+            $bin_arr = str_split($data,8);
+            foreach ($bin_arr as $bin) { 
+                $input = $input.base_convert($bin, 2, 16);  
+            } 
+            $input = pack("H*",$input);
+            break;
+
+            #BASE16(hex) DECODING
+            case "b16" :
+            $input = pack("H*",$data);
+            break;
+
             #BASE64 DECODING
             case "b64" :
             $input = base64_decode($data);
             break;
 
-            #HEX DECODING
-            case "hex" :
-            $input = pack("H*",$data);
-            break;
         }
 
         $result = iconv($charset,"utf-8",$input);
