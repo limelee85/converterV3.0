@@ -7,8 +7,9 @@ ConverterV3.0 is a simple character conversion tool
 ## Features
 1. EN/DEcoder
     - URL en/decode
-    - base64 en/decode
+    - bin en/decode
     - hex en/decode
+    - base64 en/decode
 
 2. Hash Generator
     - Supported Hash Algorithms
