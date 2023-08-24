@@ -79,7 +79,7 @@ function change_code(code) {
 		case "0":
 			selcode = 0;
 			$('#endecode').css('display', 'block');
-			option_data = {"":{"url":"URL","b64":"Base64","hex":"Hex"}}
+			option_data = {"":{"url":"URL","b2":"Base2(Bin)","b16":"Base16(Hex)","b64":"Base64"}}
 			break
 		case "1":
 			selcode = 2;
@@ -89,7 +89,7 @@ function change_code(code) {
 		case "2":
 			selcode = 3;
 			$('#endecrypt').css('display', 'block');
-			option_data = {"AES":{"aes-128-cbc":"AES-128-CBC","aes-192-cbc":"AES-192-CBC","aes-256-cbc":"AES-256-CBC"},"DES":{"des-ede-cbc":"DES-EDE-CBC","des-ede-ecb":"DES-EDE-EBC","des-ede3":"3DES","des-ede3-cbc":"3DES-CBC"},"ARIA":{"aria-128-cbc":"ARIA-128-CBC","aria-192-cbc":"ARIA-192-CBC","aria-256-cbc":"ARIA-256-CBC"},"CAMELLIA":{"camellia-128-cbc":"CAMELLIA-128-CBC","camellia-192-cbc":"CAMELLIA-192-CBC","camellia-256-cbc":"CAMELLIA-256-CBC"}};
+			option_data = {"AES":{"aes-128-cbc":"AES-128-CBC","aes-192-cbc":"AES-192-CBC","aes-256-cbc":"AES-256-CBC"},"DES":{"des-ede-cbc":"DES-EDE-CBC","des-ede-ecb":"DES-EDE-EBC","des-ede3-cbc":"3DES-CBC","des-ede3-ecb":"3DES-ECB"},"ARIA":{"aria-128-cbc":"ARIA-128-CBC","aria-192-cbc":"ARIA-192-CBC","aria-256-cbc":"ARIA-256-CBC"},"CAMELLIA":{"camellia-128-cbc":"CAMELLIA-128-CBC","camellia-192-cbc":"CAMELLIA-192-CBC","camellia-256-cbc":"CAMELLIA-256-CBC"}};
 			break
 		case "3":
 			selcode = 5;
@@ -153,7 +153,7 @@ function getresult(formData) {
 	let temp;
 	//console.log(formData);
 	$.ajax({
-		url:"/enc.php",
+		url:"enc.php",
 		type:"POST",
 		data:encodeURI(formData),
 		async: false,
