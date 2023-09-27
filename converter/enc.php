@@ -54,6 +54,8 @@
     # decode
     elseif ( $code === "1" ) {
         
+        $data = urldecode($data);
+
         switch ( $mode ) {
             #URL DECODING
             case "url" :
