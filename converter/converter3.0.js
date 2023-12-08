@@ -362,7 +362,7 @@ function Eng2Han() {
 				}
 				else {
 					result += cho_kor[cho.indexOf(ischo)]; 
-					input = input.substr(isjong.length);
+					input = input.substr(ischo.length);
 				}
 			}
 		}
